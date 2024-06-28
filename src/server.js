@@ -1,7 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const connectDB = require("./config");
+const path = require("path");
 const webhook = require("./bot");
+const biweeklyRewards = require("./biweeklyRewards");
 
 const app = express();
 const port = process.env.PORT || 80; // Adjust port number as necessary
@@ -15,6 +17,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Webhook route
 app.use("/api", webhook);
+
+// Endpoint to handle biweekly rewards distribution
+app.post("/api/distribute-rewards", async (req, res) => {
+  try {
+    await biweeklyRewards();
+    res.status(200).send("Biweekly rewards distributed successfully.");
+  } catch (error) {
+    console.error("Error distributing rewards:", error);
+    res.status(500).send("Error distributing rewards.");
+  }
+});
 
 // Serve static files from the React app's build folder
 app.use(express.static(path.join(__dirname, "..", "build")));
