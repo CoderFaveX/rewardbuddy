@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const connectDB = require("./config");
 const path = require("path");
 const webhook = require("./bot");
-const biweeklyRewards = require("./biweeklyRewards");
+const biweeklyRewards = require("./commands/biWeeklyRewards");
 
 const app = express();
 const port = process.env.PORT || 80; // Adjust port number as necessary
