@@ -4,6 +4,7 @@ const connectDB = require("./config");
 const path = require("path");
 const webhook = require("./bot");
 const biweeklyRewards = require("./commands/biWeeklyRewards");
+const claimAirtimeRoute = require("./routes/handleClaimAirtime");
 
 const app = express();
 const port = process.env.PORT || 80; // Adjust port number as necessary
