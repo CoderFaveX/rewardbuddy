@@ -1,6 +1,9 @@
 const User = require("../models/user");
 const { sendMessage } = require("./base_commands");
 
+const TOKEN = process.env.TOKEN;
+const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+
 async function generateMessage(chatId) {
   const url = `${TELEGRAM_API}/sendMessage`;
   const message = {
