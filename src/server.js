@@ -16,6 +16,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Webhook route
 app.use("/api", webhook);
 
+// Serve static files from the React app's build folder
+app.use(express.static(path.join(__dirname, "..", "build")));
+
+// Serve the React app for any route not handled by the API
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

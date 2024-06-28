@@ -6,6 +6,13 @@
       "use": "@vercel/node"
     },
     {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
       "src": "src/commands/biWeeklyRewards.js",
       "use": "@vercel/node"
     }
@@ -13,15 +20,21 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "src/server.js"
+      "dest": "/src/server.js"
     },
     {
       "src": "/api/cron",
-      "dest": "src/commands/biWeeklyRewards.js"
+      "dest": "/src/commands/biWeeklyRewards.js"
     },
     {
       "src": "/(.*)",
-      "dest": "src/server.js"
+      "dest": "/build/$1"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "* * * * *"
     }
   ]
 }
