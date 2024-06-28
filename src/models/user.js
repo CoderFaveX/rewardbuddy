@@ -24,6 +24,10 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  validToken: {
+    type: Boolean,
+    default: false
+  },
   lastLogin: {
     type: Date,
     default: Date.now,

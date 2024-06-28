@@ -29,6 +29,8 @@ app.post("/api/distribute-rewards", async (req, res) => {
   }
 });
 
+app.use('/api', claimAirtimeRoute);
+
 // Serve static files from the React app's build folder
 app.use(express.static(path.join(__dirname, "..", "build")));
 
