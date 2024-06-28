@@ -30,11 +30,5 @@
       "src": "/(.*)",
       "dest": "/build/$1"
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/cron",
-      "schedule": "* * * * *"
-    }
   ]
 }
