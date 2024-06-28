@@ -6,26 +6,26 @@ const ClaimAirtime = () => {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
     const chatId = query.get('chatId');
-  
+
     const [message, setMessage] = useState('');
     const [number, setNumber] = useState('');
 
-    const handleClaim = async () => {
-        try {
-            const response = await axios.post('/api/claim-airtime', { chatId, number: number });
-            setMessage(response.data.message);
-        } catch (error) {
-            console.error('Error claiming airtime:', error);
-            setMessage('Failed to claim airtime. Please try again later.');
-        }
-    };
-
     useEffect(() => {
-      if (chatId) {
-        handleClaim();
-      }
+        const handleClaim = async () => {
+            try {
+                const response = await axios.post('/api/claim-airtime', { chatId, number: number });
+                setMessage(response.data.message);
+            } catch (error) {
+                console.error('Error claiming airtime:', error);
+                setMessage('Failed to claim airtime. Please try again later.');
+            }
+        };
+
+        if (chatId) {
+            handleClaim();
+        }
     }, [chatId]);
-  
+
 
     return (
         <div>
