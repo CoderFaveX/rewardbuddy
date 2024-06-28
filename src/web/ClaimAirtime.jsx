@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,28 +10,21 @@ const ClaimAirtime = () => {
     const [message, setMessage] = useState('');
     const [number, setNumber] = useState('');
 
-    useEffect(() => {
-        const handleClaim = async () => {
-            try {
-                const response = await axios.post('/api/claim-airtime', { chatId, number: number });
-                setMessage(response.data.message);
-            } catch (error) {
-                console.error('Error claiming airtime:', error);
-                setMessage('Failed to claim airtime. Please try again later.');
-            }
-        };
-
-        if (chatId) {
-            handleClaim();
+    const handleClaim = async () => {
+        try {
+            const response = await axios.post('/api/claim-airtime', { chatId, number: number });
+            setMessage(response.data.message);
+        } catch (error) {
+            console.error('Error claiming airtime:', error);
+            setMessage('Failed to claim airtime. Please try again later.');
         }
-    }, [chatId]);
-
+    };
 
     return (
         <div>
             <h1>Claim Your Airtime</h1>
             <input type="text" value={number} onChange={e => setNumber(e.target.value)} />
-            <button onClick={handleClaim}>Claim Airtime</button>
+            <button onClick={handleClaim} disabled={!chatId}>Claim Airtime</button>
             <p>{message}</p>
         </div>
     );
