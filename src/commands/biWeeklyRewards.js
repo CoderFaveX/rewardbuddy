@@ -44,7 +44,7 @@ async function distributeBiWeeklyRewards() {
         const currentUser = User.findOne({ chatId: user.chatId });
         console.log(
           "Chat Id: %s, User_found: %s",
-          chatId,
+          user.chatId,
           JSON.stringify(currentUser)
         );
         currentUser.validToken = true;
