@@ -45,7 +45,7 @@ async function distributeBiWeeklyRewards() {
         console.log(
           "Chat Id: %s, User_found: %s",
           user.chatId,
-          JSON.stringify(currentUser)
+          currentUser.chatId
         );
         currentUser.validToken = true;
         await generateMessage(currentUser.chatId);
