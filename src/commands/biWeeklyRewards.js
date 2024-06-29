@@ -34,6 +34,7 @@ async function distributeBiWeeklyRewards() {
       { $sort: { biWeeklyActivity: -1 } },
       { $limit: 2 }, // adjust limit bruh
     ]);
+    console.log(JSON.stringify(topUsers))
     const users = await User.find({});
 
     // Reward top users
@@ -44,6 +45,7 @@ async function distributeBiWeeklyRewards() {
         console.log(`Rewarding user: ${user.chatId}`);
         await user.save();
       }
+      await User.updateMany({}, { $set: { biWeeklyActivity: 0 } });
     } else {
       for (const user of users) {
         await sendMessage(
@@ -52,8 +54,6 @@ async function distributeBiWeeklyRewards() {
         );
       }
     }
-
-    await User.updateMany({}, { $set: { biWeeklyActivity: 0 } });
 
     console.log("Bi-weekly rewards distributed and counters reset");
   } catch (error) {
