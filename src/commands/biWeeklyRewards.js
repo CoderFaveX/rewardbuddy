@@ -28,6 +28,7 @@ async function generateMessage(chatId) {
 }
 
 async function distributeBiWeeklyRewards() {
+    console.log("the function is working")
   try {
     // Fetch, sort, and select top users based on biWeeklyActivity
     const topUsers = await User.aggregate([
