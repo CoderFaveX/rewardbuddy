@@ -12,7 +12,7 @@ const ClaimAirtime = () => {
 
     const handleClaim = async () => {
         try {
-            const response = await axios.post('/api/claim-airtime', { chatId, number: number });
+            const response = await axios.post(`${window.origin}/api/claim-airtime`, { chatId, number: number });
             setMessage(response.data.message);
         } catch (error) {
             console.error('Error claiming airtime:', error);

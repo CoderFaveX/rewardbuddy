@@ -6,29 +6,30 @@ const TOKEN = process.env.TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 
 async function generateMessage(chatId) {
-  const url = `${TELEGRAM_API}/sendMessage`;
-  const message = {
-    chat_id: chatId,
-    text: "🎉 <b>Congratulations!</b> 🎉\n\nYou're one of our top active users and have earned #500 airtime! 🎁\nPlease choose the network of your choice to claim your reward.\nKeep up the amazing work and stay active to earn even more rewards! 💪\nThank you for being a valuable member of our community! 😊",
-    parse_mode: "HTML",
-    reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: "Claim Airtime!!",
-            url: `https://rewardbuddy.vercel.app/claimairtime?chatId=${chatId}`,
-          },
-        ], // should open a pop up inside telegram
-      ],
-    },
-  };
-  await axios.post(url, message, {
-    headers: { "Content-Type": "application/json" },
-  });
+  if (chatId) {
+    const url = `${TELEGRAM_API}/sendMessage`;
+    const message = {
+      chat_id: chatId,
+      text: "🎉 <b>Congratulations!</b> 🎉\n\nYou're one of our top active users and have earned #500 airtime! 🎁\nPlease choose the network of your choice to claim your reward.\nKeep up the amazing work and stay active to earn even more rewards! 💪\nThank you for being a valuable member of our community! 😊",
+      parse_mode: "HTML",
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "Claim Airtime!!",
+              url: `https://rewardbuddy.vercel.app/claimairtime?chatId=${chatId}`,
+            },
+          ], // should open a pop up inside telegram
+        ],
+      },
+    };
+    await axios.post(url, message, {
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
 
 async function distributeBiWeeklyRewards() {
-    console.log("the function is working")
   try {
     // Fetch, sort, and select top users based on biWeeklyActivity
     const topUsers = await User.aggregate([
@@ -41,6 +42,11 @@ async function distributeBiWeeklyRewards() {
     if (topUsers) {
       for (const user of topUsers) {
         const currentUser = User.findOne({ chatId: user.chatId });
+        console.log(
+          "Chat Id: %s, User_found: %s",
+          chatId,
+          JSON.stringify(currentUser)
+        );
         currentUser.validToken = true;
         await generateMessage(currentUser.chatId);
         console.log(`Rewarding user: ${currentUser.chatId}`);
