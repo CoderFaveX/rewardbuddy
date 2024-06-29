@@ -34,16 +34,16 @@ async function distributeBiWeeklyRewards() {
       { $sort: { biWeeklyActivity: -1 } },
       { $limit: 2 }, // adjust limit bruh
     ]);
-    console.log(JSON.stringify(topUsers))
     const users = await User.find({});
 
     // Reward top users
     if (topUsers) {
       for (const user of topUsers) {
-        user.validToken = true;
-        await generateMessage(user.chatId);
-        console.log(`Rewarding user: ${user.chatId}`);
-        await user.save();
+        const currentUser = User.findOne({ chatId: user.chatId });
+        currentUser.validToken = true;
+        await generateMessage(currentUser.chatId);
+        console.log(`Rewarding user: ${currentUser.chatId}`);
+        await currentUser.save();
       }
       await User.updateMany({}, { $set: { biWeeklyActivity: 0 } });
     } else {
