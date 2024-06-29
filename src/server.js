@@ -22,6 +22,7 @@ app.use("/api", webhook);
 // Endpoint to handle biweekly rewards distribution
 app.post("/api/distribute-rewards", async (req, res) => {
   try {
+    console.log("distribute")
     await biweeklyRewards();
     res.status(200).send("Biweekly rewards distributed successfully.");
   } catch (error) {
