@@ -20,7 +20,8 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/build/index.html"
+      "dest": "/build/index.html",
+      "status": 200
     }
   ]
 }
