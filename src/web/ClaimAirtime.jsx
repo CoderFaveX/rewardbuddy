@@ -50,6 +50,8 @@ const ClaimAirtime = () => {
                 console.log(`An error occured: ${err}`)
             }
         }
+
+        (async () => await fetchUser())();
     }, [chatId]);
 
     return (
