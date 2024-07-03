@@ -15,13 +15,11 @@ const ClaimAirtime = () => {
 
         const handleClaim = async () => {
             try {
-                const response = await fetch('/api/claim-airtime', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chatId: chatIdFromUrl, number }),
+                const response = await axios.post('/api/claim-airtime', {
+                    chatId: chatIdFromUrl,
+                    number: number
                 });
-                const data = await response.json();
-                setMessage(data.message || 'Airtime claimed successfully!');
+                setMessage(response.data.message || 'Airtime claimed successfully!');
                 tg.MainButton.setText('Airtime Claimed! 🎉');
             } catch (error) {
                 console.error('Error claiming airtime:', error);
@@ -33,6 +31,12 @@ const ClaimAirtime = () => {
         tg.MainButton.setText('Claim Airtime | Reward Bot');
         tg.MainButton.onClick(handleClaim);
         tg.MainButton.show();
+
+        // Cleanup function to hide MainButton when the component is unmounted
+        return () => {
+            tg.MainButton.offClick(handleClaim);
+            tg.MainButton.hide();
+        };
     }, [number]);
 
     return (
