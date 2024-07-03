@@ -4,7 +4,6 @@ import axios from 'axios';
 const ClaimAirtime = () => {
     const [message, setMessage] = useState('');
     const [number, setNumber] = useState('');
-    const [chatId, setChatId] = useState('');
 
     useEffect(() => {
         const tg = window.Telegram.WebApp;
