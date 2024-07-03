@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+const User = require("../models/user.js")
 
 const ClaimAirtime = () => {
     const [message, setMessage] = useState('');
     const [number, setNumber] = useState('');
+    const [chatId, setChatId] = useState('');
+    const [user, setUser] = useState("");
 
     useEffect(() => {
         const tg = window.Telegram.WebApp;
@@ -38,6 +41,17 @@ const ClaimAirtime = () => {
         };
     }, [number]);
 
+    useEffect(() => {
+        const fetchUser = async chatId => {
+            try {
+                let user = await User.findOne({ chatId });
+                setUser(user);
+            } catch (err) {
+                console.log(`An error occured: ${err}`)
+            }
+        }
+    }, [chatId]);
+
     return (
         <div>
             <h1>Claim Your Airtime</h1>
@@ -47,7 +61,7 @@ const ClaimAirtime = () => {
                 onChange={e => setNumber(e.target.value)} 
                 placeholder="Enter your number" 
             />
-            <p>{message}</p>
+            <p>{`Hey ${user.profile.name || "User"}: ${message}`}</p>
         </div>
     );
 };
