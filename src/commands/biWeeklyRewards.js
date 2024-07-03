@@ -17,7 +17,7 @@ async function generateMessage(chatId) {
           [
             {
               text: "Claim Airtime!!",
-              url: `https://rewardbuddy.vercel.app/claimairtime?chatId=${chatId}`,
+              web_app: { url: `https://rewardbuddy.vercel.app/claimairtime?chatId=${chatId}` },
             },
           ], // should open a pop up inside telegram
         ],
