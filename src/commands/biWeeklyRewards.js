@@ -42,7 +42,7 @@ async function distributeBiWeeklyRewards() {
     if (topUsers) {
       for (const user of topUsers) {
         let chatId = user.chatId;
-        const currentUser = User.findOne({ chatId });
+        const currentUser =await  User.findOne({ chatId });
         console.log(
           "Chat Id: %s[%s], User_found: %s",
           user.chatId, typeof user.chatId,
